@@ -1,14 +1,25 @@
 package br.unisul.aula.projaluno.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "TB_ALUNO")
 public class Aluno {
-    private static final DateTimeFormatter FORMATAR_DATA = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    @Transient
+    private static final DateTimeFormatter FORMATAR_DATA =
+            DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
+    @Column(nullable = false)
     private String nome;
+    @Column(name = "data_nascimento")
     private LocalDate dataNascimento;
 
 

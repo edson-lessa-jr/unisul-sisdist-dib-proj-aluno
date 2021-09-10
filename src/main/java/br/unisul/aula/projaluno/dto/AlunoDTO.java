@@ -3,18 +3,15 @@ package br.unisul.aula.projaluno.dto;
 import br.unisul.aula.projaluno.model.Aluno;
 
 public class AlunoDTO {
+    private Long id;
     private String nome;
     private String dataNascimento;
 
     public AlunoDTO() {
     }
 
-    public AlunoDTO(String nome, String dataNascimento) {
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-    }
-
     public AlunoDTO(Aluno aluno) {
+        this.id = aluno.getId();
         this.nome = aluno.getNome();
         this.dataNascimento = aluno.getDataNascimentoFormada();
     }
@@ -35,6 +32,14 @@ public class AlunoDTO {
         this.dataNascimento = dataNascimento;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "AlunoDTO: \n" +
@@ -46,6 +51,11 @@ public class AlunoDTO {
         Aluno aluno = new Aluno();
         aluno.setNome(this.nome);
         aluno.setDataNascimento(this.dataNascimento);
+        if (this.id!=null){
+            aluno.setId(this.id);
+        } else {
+            aluno.setId(null);
+        }
         return aluno;
     }
 }

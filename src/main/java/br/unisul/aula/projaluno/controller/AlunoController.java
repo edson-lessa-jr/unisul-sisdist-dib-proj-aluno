@@ -1,6 +1,7 @@
 package br.unisul.aula.projaluno.controller;
 
 import br.unisul.aula.projaluno.dto.AlunoDTO;
+import br.unisul.aula.projaluno.dto.NomesDTO;
 import br.unisul.aula.projaluno.model.Aluno;
 import br.unisul.aula.projaluno.repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,19 @@ public class AlunoController {
         AlunoDTO dto = new AlunoDTO(alunoRepository.findById(id).get());
         return dto;
     }
+    @PostMapping("/info/")
+    public List<AlunoDTO> localizarAlunoIDS(@RequestBody List<AlunoDTO> alunoDTOList) {
+        List<AlunoDTO> dtos = new ArrayList<>();
+        for (AlunoDTO alunoBuscado: alunoDTOList) {
+            AlunoDTO dto = new AlunoDTO(alunoRepository.findById(alunoBuscado.getId()).get());
+            dtos.add(dto);
+        }
+        System.out.println(dtos);
+        return dtos;
+    }
 
     @GetMapping("/nome/{nome}")
-    public AlunoDTO licalizarPorNome(@PathVariable(name = "nome") String nome) {
+    public AlunoDTO localizarPorNome(@PathVariable(name = "nome") String nome) {
         AlunoDTO alunoDTO = new AlunoDTO(alunoRepository.findFirstByNome(nome));
         return alunoDTO;
     }
@@ -44,5 +55,17 @@ public class AlunoController {
         Aluno aluno = dto.converteParaAluno();
         alunoRepository.save(aluno);
 
+    }
+
+    @PostMapping("/nome/")
+    public List<AlunoDTO> localizarListaPorNome(@RequestBody List<NomesDTO> listaDeConsulta){
+        List<AlunoDTO> dtos = new ArrayList<>();
+        for (NomesDTO alunoPesquisado: listaDeConsulta){
+            AlunoDTO alunoDTO = new AlunoDTO(alunoRepository
+                    .findFirstByNome(alunoPesquisado.getNomeAluno()));
+            dtos.add(alunoDTO);
+
+        }
+        return dtos;
     }
 }
